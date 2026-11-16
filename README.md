@@ -101,3 +101,7 @@ uv run ruff check .
 ```
 
 CI (`.github/workflows/ci.yml`) runs both and builds and smoke-tests the image.
+
+## Licence
+
+[MIT](LICENSE). Copy it, change it, build your own backend from it.

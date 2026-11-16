@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "Example HTTP API for the Jamhooks example flows (account lookup, customer lookup, echo)"
 readme = "README.md"
 requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = [
     "fastapi>=0.163.1",
     "uvicorn>=0.54.0",
