@@ -1,0 +1,14 @@
+{
+  "accounts": {
+    "100001": { "status": "active", "team_number": "+12025550121" },
+    "100002": { "status": "active", "team_number": "+12025550122" },
+    "200001": { "status": "suspended", "team_number": "+12025550123" },
+    "300001": { "status": "closed", "team_number": null }
+  },
+  "customers": {
+    "+12025550131": { "tier": "platinum", "balance_due": 0 },
+    "+12025550132": { "tier": "gold", "balance_due": 0 },
+    "+12025550133": { "tier": "standard", "balance_due": 42.5 },
+    "+12025550134": { "tier": "standard", "balance_due": 0 }
+  }
+}

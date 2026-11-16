@@ -1,0 +1,46 @@
+# Weekly, grouped update PRs for everything this repo pins: the CI actions (by
+# commit SHA), the Dockerfile base images (by digest) and the Python lock (uv.lock).
+# `cooldown` holds a fresh release back a few days; security updates are not delayed.
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: ci
+    groups:
+      github-actions:
+        patterns: ["*"]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 3
+    commit-message:
+      prefix: build
+    groups:
+      base-images:
+        patterns: ["*"]
+    ignore:
+      # Digest refreshes only: moving off Python 3.14 is a decision (both images,
+      # UV_PYTHON, .python-version and CI's matrix move together).
+      - dependency-name: python
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: build
+    groups:
+      python:
+        update-types: [minor, patch]

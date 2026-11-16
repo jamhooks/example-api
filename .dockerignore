@@ -1,0 +1,6 @@
+# Allowlist: only what the image needs.
+*
+!pyproject.toml
+!uv.lock
+!example_api/
+example_api/__pycache__/
