@@ -1,31 +1,24 @@
 # Jamhooks example API
 
 A small HTTP API that answers the **HTTP Request** nodes in the Jamhooks example flows,
-so you can try them on a real call without a backend of your own. It serves sample data
-from a JSON file and is not meant for production.
+so you can try them on a real call without a backend of your own. It is a Cloudflare
+Worker serving sample data from a JSON file, and is not meant for production.
 
 The example flows call the public instance at `https://example.jamhooks.com` out of the
-box. Run your own copy to change the data, try `API_TOKEN`, or see how a backend for
-Jamhooks is put together.
+box. Run or deploy your own copy to change the data, try `API_TOKEN`, or see how a
+backend for Jamhooks is put together.
 
-## Run it
-
-```bash
-uv sync
-uv run python main.py          # http://127.0.0.1:8000, interactive docs at /docs
-```
-
-Or with Docker:
+## Run it locally
 
 ```bash
-docker build -t jamhooks-example-api .
-docker run --rm -p 8000:8000 jamhooks-example-api
+npm ci
+npm run dev        # http://localhost:8787, in the real Workers runtime
+npm test           # node's built-in test runner
 ```
 
-Settings (all optional, see `.env.example`): `API_TOKEN` requires
-`Authorization: Bearer <token>` on every endpoint except `/health`; `DATA_FILE` reads
-another data file instead of `example_api/data.json`; `HOST` and `PORT` set where
-`main.py` listens.
+Optional setting: the secret `API_TOKEN` requires `Authorization: Bearer <token>` on
+every endpoint except `/health`. Locally, copy `.dev.vars.example` to `.dev.vars` and
+set it there; in Cloudflare, run `npx wrangler secret put API_TOKEN`.
 
 ## Endpoints
 
@@ -62,45 +55,52 @@ All phone numbers are in the 555-0100 to 555-0199 range, which is reserved for f
 | +12025550134 | standard | 0 | the fallback |
 | anything else | `null` | `null` | Not in the CRM |
 
-Edit `example_api/data.json` (or point `DATA_FILE` at your own copy) to change them.
+Edit `src/data.json` to change them.
 
 ## Use your own copy with the example flows
 
 The Jamhooks app makes these requests, not Jambonz, so the API only has to be reachable
-from the app. Use an address the app can resolve: `http://127.0.0.1:8000` when both run on
-your machine without Docker; from the app's container, the host's address or a shared
-Docker network (`localhost` inside a container is the container itself).
+from the app: `http://127.0.0.1:8787` for `npm run dev` on the same machine, or your own
+deployment (change `routes` in `wrangler.jsonc` to your domain).
 
 1. In the editor, **New Flow → Load Example** and pick the flow.
 2. Point it at your copy instead of `https://example.jamhooks.com`:
    - `example/account_lookup`: the URL is written into the **Look up account** node.
-     Change it to `http://<api-host>:8000/accounts/{{digits}}`.
-   - `example/priority_routing`: set the env var `CRM_URL` to
-     `http://<api-host>:8000/customers`.
-   - `example/nodes/data_tools`: set the env var `ECHO_URL` to
-     `http://<api-host>:8000/anything`.
+     Change it to `<your-api>/accounts/{{digits}}`.
+   - `example/priority_routing`: set the env var `CRM_URL` to `<your-api>/customers`.
+   - `example/nodes/data_tools`: set the env var `ECHO_URL` to `<your-api>/anything`.
 
    An env var's value comes from the Jambonz application's env vars (set in the
    Jambonz portal); without one, the default declared in the flow is used.
 3. **Deploy**, then call it, and follow the requests in the editor's **Debug** pane.
    **Simulate** does not send HTTP requests, so it never reaches this API.
 
-Two app settings matter. `HTTP_REQUEST_ALLOW_PRIVATE` must stay `true` (the default)
-for the app to reach this API on a private or loopback address. With `API_TOKEN` set,
-add a header to the HTTP Request node: `Authorization` → `Bearer {{env_vars.API_TOKEN}}`,
-with `API_TOKEN` declared as an obscure env var.
+The app setting `HTTP_REQUEST_ALLOW_PRIVATE` must stay `true` (the default) for the app
+to reach a copy on a private or loopback address. With `API_TOKEN` set, add a header to
+the HTTP Request node: `Authorization` → `Bearer {{env_vars.API_TOKEN}}`, with
+`API_TOKEN` declared as an obscure env var.
 
-The API logs no requests: the access log would print account numbers (in the path) and
-callers' phone numbers (in the query string). Keep it that way in your own backend.
+The API logs no requests, and Workers Logs are off (`wrangler.jsonc`): request paths
+carry account numbers and query strings callers' phone numbers. Keep it that way in
+your own backend.
 
-## Development
+## Deployment
 
-```bash
-uv run pytest
-uv run ruff check .
-```
+Cloudflare Workers Builds deploys every push to `master` to
+`https://example.jamhooks.com`: Cloudflare pulls the repository, runs the tests, and
+only then runs `npx wrangler deploy`. No Cloudflare credentials are stored in GitHub.
+GitHub Actions (`.github/workflows/ci.yml`) tests and bundles every pull request.
 
-CI (`.github/workflows/ci.yml`) runs both and builds and smoke-tests the image.
+One-time setup, in Cloudflare:
+
+1. `jamhooks.com` is an active zone in the account. The first deploy creates the
+   `example` DNS record and its certificate (`custom_domain` in `wrangler.jsonc`).
+2. **Workers & Pages → Create → Import a repository**, and pick `jamhooks/example-api`.
+   The Cloudflare GitHub app must be installed on the `jamhooks` organisation with
+   access to this repository.
+3. Worker name `jamhooks-example-api` (it must match `name` in `wrangler.jsonc`),
+   production branch `master`, root directory `/`, build command `npm ci && npm test`,
+   deploy command `npx wrangler deploy`. Turn off builds for non-production branches.
 
 ## Licence
 
