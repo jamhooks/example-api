@@ -100,7 +100,9 @@ One-time setup, in Cloudflare:
    access to this repository.
 3. Worker name `example-api` (it must match `name` in `wrangler.jsonc`),
    production branch `master`, root directory `/`, build command `npm ci && npm test`,
-   deploy command `npx wrangler deploy`. Turn off builds for non-production branches.
+   deploy command `npx wrangler deploy`. Under **Settings → Build → Branch control**, clear
+   **Enable Preview Builds**: this Worker has no preview URLs, so a preview build would
+   fail, and GitHub CI already tests every pull request.
 
 ## Licence
 
