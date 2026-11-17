@@ -86,20 +86,21 @@ your own backend.
 
 ## Deployment
 
-Every push to `master` deploys to `https://example.jamhooks.com`: the `deploy` job in
-`.github/workflows/ci.yml` runs after the tests pass, then checks that the deployed API
-answers. Pull requests and other branches only run the tests and bundle the Worker.
+Cloudflare Workers Builds deploys every push to `master` to
+`https://example.jamhooks.com`: Cloudflare pulls the repository, runs the tests, and
+only then runs `npx wrangler deploy`. No Cloudflare credentials are stored in GitHub.
+GitHub Actions (`.github/workflows/ci.yml`) tests and bundles every pull request.
 
-One-time setup:
+One-time setup, in Cloudflare:
 
-1. `jamhooks.com` is a zone in the Cloudflare account. The first deploy creates the
+1. `jamhooks.com` is an active zone in the account. The first deploy creates the
    `example` DNS record and its certificate (`custom_domain` in `wrangler.jsonc`).
-2. In Cloudflare, create an API token from the **Edit Cloudflare Workers** template,
-   limited to that account and the `jamhooks.com` zone.
-3. In this repository's **Settings → Environments**, create `production`, limit its
-   deployment branches to `master`, and add two environment secrets:
-   `CLOUDFLARE_API_TOKEN` (the token) and `CLOUDFLARE_ACCOUNT_ID` (on the account's
-   **Workers & Pages** overview page).
+2. **Workers & Pages → Create → Import a repository**, and pick `jamhooks/example-api`.
+   The Cloudflare GitHub app must be installed on the `jamhooks` organisation with
+   access to this repository.
+3. Worker name `jamhooks-example-api` (it must match `name` in `wrangler.jsonc`),
+   production branch `master`, root directory `/`, build command `npm ci && npm test`,
+   deploy command `npx wrangler deploy`. Turn off builds for non-production branches.
 
 ## Licence
 

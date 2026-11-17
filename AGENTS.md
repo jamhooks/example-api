@@ -33,7 +33,7 @@ in the background and stop it when done.
 | `src/data.json` | The sample accounts and customers |
 | `test/index.test.js` | One test per behaviour a flow relies on |
 | `wrangler.jsonc` | Worker name, compatibility date, the `example.jamhooks.com` route, logs off |
-| `.github/workflows/ci.yml` | Tests and bundle on every push; deploy on `master` |
+| `.github/workflows/ci.yml` | Tests and bundle on pull requests and `master` (no deploy) |
 
 ## The contract with the app's example flows
 
@@ -52,10 +52,11 @@ step with `data.json`. If an example flow in the app changes shape, this API fol
 
 ## Deployment
 
-`master` deploys itself (README, "Deployment"). The Cloudflare token and account ID are
-secrets of the GitHub environment `production`, which only `master` may use. Wrangler is
-pinned to an exact version in `package.json`; deploys run it from `package-lock.json`,
-with telemetry off. Never deploy by hand from a branch.
+Cloudflare Workers Builds deploys `master` (README, "Deployment"): it runs
+`npm ci && npm test` and then `npx wrangler deploy`, so a failing test stops the deploy.
+No Cloudflare credentials live in GitHub, and GitHub Actions never deploys. Wrangler is
+pinned to an exact version in `package.json` and installed from `package-lock.json`.
+Never deploy by hand from a branch.
 
 ## Rules
 
