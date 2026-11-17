@@ -1,5 +1,5 @@
 {
-  "name": "jamhooks-example-api",
+  "name": "example-api",
   "version": "0.2.0",
   "private": true,
   "description": "Example HTTP API that answers the HTTP Request nodes in the Jamhooks example flows",

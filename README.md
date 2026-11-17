@@ -98,7 +98,7 @@ One-time setup, in Cloudflare:
 2. **Workers & Pages → Create → Import a repository**, and pick `jamhooks/example-api`.
    The Cloudflare GitHub app must be installed on the `jamhooks` organisation with
    access to this repository.
-3. Worker name `jamhooks-example-api` (it must match `name` in `wrangler.jsonc`),
+3. Worker name `example-api` (it must match `name` in `wrangler.jsonc`),
    production branch `master`, root directory `/`, build command `npm ci && npm test`,
    deploy command `npx wrangler deploy`. Turn off builds for non-production branches.
 
