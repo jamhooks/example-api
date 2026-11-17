@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Working guide for AI coding agents (and humans) in the Jamhooks example API.
+Working guide for AI coding agents (and humans) in the JamHooks example API.
 
 ## What this is
 
-A Cloudflare Worker that answers the HTTP Request nodes in the Jamhooks example flows
+A Cloudflare Worker that answers the HTTP Request nodes in the JamHooks example flows
 (`examples/*.json` in the app repo, `jamhooks/jamhooks`) with sample data, so the flows
 can be tried on a real call. It is a teaching example, not a product: plain JavaScript,
 no framework, no runtime dependencies, one JSON data file. This repository is public.

@@ -1,12 +1,12 @@
-# Jamhooks example API
+# JamHooks example API
 
-A small HTTP API that answers the **HTTP Request** nodes in the Jamhooks example flows,
+A small HTTP API that answers the **HTTP Request** nodes in the JamHooks example flows,
 so you can try them on a real call without a backend of your own. It is a Cloudflare
 Worker serving sample data from a JSON file, and is not meant for production.
 
 The example flows call the public instance at `https://example.jamhooks.com` out of the
 box. Run or deploy your own copy to change the data, try `API_TOKEN`, or see how a
-backend for Jamhooks is put together.
+backend for JamHooks is put together.
 
 ## Run it locally
 
@@ -59,7 +59,7 @@ Edit `src/data.json` to change them.
 
 ## Use your own copy with the example flows
 
-The Jamhooks app makes these requests, not Jambonz, so the API only has to be reachable
+The JamHooks app makes these requests, not Jambonz, so the API only has to be reachable
 from the app: `http://127.0.0.1:8787` for `npm run dev` on the same machine, or your own
 deployment (change `routes` in `wrangler.jsonc` to your domain).
 

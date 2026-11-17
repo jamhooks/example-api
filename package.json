@@ -2,7 +2,7 @@
   "name": "example-api",
   "version": "0.2.0",
   "private": true,
-  "description": "Example HTTP API that answers the HTTP Request nodes in the Jamhooks example flows",
+  "description": "Example HTTP API that answers the HTTP Request nodes in the JamHooks example flows",
   "license": "MIT",
   "type": "module",
   "scripts": {

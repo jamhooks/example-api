@@ -1,4 +1,4 @@
-// An example backend for the Jamhooks example flows, as a Cloudflare Worker.
+// An example backend for the JamHooks example flows, as a Cloudflare Worker.
 //
 // Each endpoint answers one HTTP Request node in the app's examples, with the JSON shape
 // that node's Response Mapping reads:
