@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "jamhooks-example-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+
+  // Served only on its own domain: Cloudflare creates the DNS record and the
+  // certificate on the first deploy, once jamhooks.com is a zone in this account.
+  "routes": [{ "pattern": "example.jamhooks.com", "custom_domain": true }],
+  "workers_dev": false,
+  "preview_urls": false,
+
+  // No Workers Logs: request paths carry account numbers and query strings callers'
+  // phone numbers.
+  "observability": { "enabled": false }
+
+  // API_TOKEN (optional) is a secret, never set here:
+  //   npx wrangler secret put API_TOKEN
+}

@@ -1,0 +1,5 @@
+# Copy to .dev.vars for `npm run dev` (never commit it).
+
+# Require "Authorization: Bearer <token>" on every endpoint except /health.
+# Empty: no token needed.
+API_TOKEN=

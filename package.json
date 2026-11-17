@@ -1,0 +1,17 @@
+{
+  "name": "jamhooks-example-api",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Example HTTP API that answers the HTTP Request nodes in the Jamhooks example flows",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "dev": "wrangler dev",
+    "check": "wrangler deploy --dry-run --outdir dist",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.159.0"
+  }
+}
