@@ -13,6 +13,10 @@ The app's example flows call the public instance at `https://example.jamhooks.co
 every push to `master` deploys there. A change to a response shape reaches every user of
 those flows as soon as it is merged.
 
+Its place in the product (a new user tries the example flows on a real call before
+building an API of their own) is in `CONTEXT.md` of the workspace repo
+(`jamhooks/workspace`; `../CONTEXT.md` when this repo is cloned there).
+
 ## Commands
 
 ```bash
